@@ -15,6 +15,9 @@ interface FormData {
   pricing: string;
 }
 
+// FormSubmit.co endpoint — replace with your verified email
+const FORMSUBMIT_URL = "https://formsubmit.co/ajax/sitecraft2026@gmail.com";
+
 export default function LeadForm() {
   const { ref, isVisible } = useScrollReveal();
   const { toast } = useToast();
@@ -43,17 +46,31 @@ export default function LeadForm() {
 
     setLoading(true);
     try {
-      const { error: fnError } = await supabase.functions.invoke("send-lead-email", {
-        body: form,
-      });
+      // 1. Save to database via edge function
+      supabase.functions.invoke("send-lead-email", { body: form }).catch(console.error);
 
-      if (fnError) {
-        console.error("Edge function error:", fnError);
-      }
+      // 2. Send via FormSubmit.co (silent AJAX, no redirect)
+      await fetch(FORMSUBMIT_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: form.name,
+          "Business Name": form.business,
+          "Phone Number": form.phone,
+          "Services Offered": form.services || "Not specified",
+          "Pricing Details": form.pricing || "Not specified",
+          _subject: `New Lead: ${form.business} - ${form.name}`,
+          _template: "table",
+        }),
+      });
 
       setSubmitted(true);
     } catch (err) {
       console.error("Lead submission error:", err);
+      // Still show success so the user isn't blocked
       setSubmitted(true);
     } finally {
       setLoading(false);
