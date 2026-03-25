@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface FormData {
   name: string;
@@ -42,25 +43,17 @@ export default function LeadForm() {
 
     setLoading(true);
     try {
-      // Try to call edge function if supabase is available
-      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-      const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+      const { error: fnError } = await supabase.functions.invoke("send-lead-email", {
+        body: form,
+      });
 
-      if (supabaseUrl && supabaseKey) {
-        await fetch(`${supabaseUrl}/functions/v1/send-lead-email`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${supabaseKey}`,
-          },
-          body: JSON.stringify(form),
-        });
+      if (fnError) {
+        console.error("Edge function error:", fnError);
       }
 
       setSubmitted(true);
     } catch (err) {
       console.error("Lead submission error:", err);
-      // Still show success - we don't want to block the user
       setSubmitted(true);
     } finally {
       setLoading(false);
