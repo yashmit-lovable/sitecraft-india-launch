@@ -6,7 +6,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
 
 interface FormData {
   name: string;
