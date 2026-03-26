@@ -36,12 +36,24 @@ export default function LeadForm() {
   const speakConfirmation = (data: FormData) => {
     if (!("speechSynthesis" in window)) return;
     window.speechSynthesis.cancel();
-    const msg = new SpeechSynthesisUtterance(
-      `Thank you ${data.name}. We've received your inquiry for ${data.business}. Our team will contact you at ${data.phone.split("").join(" ")} within 24 hours.`
-    );
-    msg.rate = 0.95;
-    msg.pitch = 1.05;
+
+    const phoneSpaced = data.phone.replace(/(\d{3})(\d{3})(\d{4})/, "$1, $2, $3");
+    const text = `Hey ${data.name}! Thanks so much for reaching out. We've got your inquiry for ${data.business}, and our team will give you a call at ${phoneSpaced}, within 24 hours. Talk soon!`;
+
+    const msg = new SpeechSynthesisUtterance(text);
+    msg.rate = 0.92;
+    msg.pitch = 1.1;
     msg.lang = "en-IN";
+
+    // Pick the most natural-sounding voice available
+    const voices = window.speechSynthesis.getVoices();
+    const preferred = voices.find(
+      (v) => v.name.includes("Google") && v.lang.startsWith("en")
+    ) || voices.find(
+      (v) => v.lang.startsWith("en") && v.localService === false
+    ) || voices.find((v) => v.lang.startsWith("en"));
+    if (preferred) msg.voice = preferred;
+
     window.speechSynthesis.speak(msg);
   };
 
