@@ -33,6 +33,18 @@ export default function LeadForm() {
 
   const phoneValid = /^\d{10}$/.test(form.phone);
 
+  const speakConfirmation = (data: FormData) => {
+    if (!("speechSynthesis" in window)) return;
+    window.speechSynthesis.cancel();
+    const msg = new SpeechSynthesisUtterance(
+      `Thank you ${data.name}. We've received your inquiry for ${data.business}. Our team will contact you at ${data.phone.split("").join(" ")} within 24 hours.`
+    );
+    msg.rate = 0.95;
+    msg.pitch = 1.05;
+    msg.lang = "en-IN";
+    window.speechSynthesis.speak(msg);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name || !form.business || !form.phone) {
