@@ -68,17 +68,19 @@ export default function LeadForm() {
       });
 
       setSubmitted(true);
+      speakConfirmation(form);
       setTimeout(() => {
         setSubmitted(false);
         setForm({ name: "", business: "", phone: "", services: "", pricing: "" });
-      }, 2000);
+      }, 5000);
     } catch (err) {
       console.error("Lead submission error:", err);
       setSubmitted(true);
+      speakConfirmation(form);
       setTimeout(() => {
         setSubmitted(false);
         setForm({ name: "", business: "", phone: "", services: "", pricing: "" });
-      }, 2000);
+      }, 5000);
     } finally {
       setLoading(false);
     }
