@@ -133,13 +133,20 @@ export default function Chatbot() {
   return (
     <>
       {/* FAB */}
-      <button
-        onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-accent text-accent-foreground shadow-xl flex items-center justify-center hover:scale-110 transition-transform"
-        aria-label="Chat"
-      >
-        {open ? <X className="w-6 h-6" /> : <img src={logo} alt="Chat" className="w-8 h-8 rounded-full" />}
-      </button>
+      <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2">
+        {!open && (
+          <div className="bg-card text-foreground text-sm font-medium px-4 py-2 rounded-full shadow-lg border border-border animate-fade-up">
+            💬 Chat with us!
+          </div>
+        )}
+        <button
+          onClick={() => setOpen(!open)}
+          className="w-14 h-14 rounded-full bg-accent text-accent-foreground shadow-xl flex items-center justify-center hover:scale-110 transition-transform"
+          aria-label="Chat with us"
+        >
+          {open ? <X className="w-6 h-6" /> : <img src={logo} alt="Chat" className="w-8 h-8 rounded-full" />}
+        </button>
+      </div>
 
       {/* Chat window */}
       {open && (
