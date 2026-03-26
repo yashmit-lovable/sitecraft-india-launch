@@ -33,30 +33,6 @@ export default function LeadForm() {
 
   const phoneValid = /^\d{10}$/.test(form.phone);
 
-  const speakConfirmation = (data: FormData) => {
-    if (!("speechSynthesis" in window)) return;
-    window.speechSynthesis.cancel();
-
-    const phoneSpaced = data.phone.replace(/(\d{3})(\d{3})(\d{4})/, "$1, $2, $3");
-    const text = `Hey ${data.name}! Thanks so much for reaching out. We've got your inquiry for ${data.business}, and our team will give you a call at ${phoneSpaced}, within 24 hours. Talk soon!`;
-
-    const msg = new SpeechSynthesisUtterance(text);
-    msg.rate = 0.92;
-    msg.pitch = 1.1;
-    msg.lang = "en-IN";
-
-    // Pick the most natural-sounding voice available
-    const voices = window.speechSynthesis.getVoices();
-    const preferred = voices.find(
-      (v) => v.name.includes("Google") && v.lang.startsWith("en")
-    ) || voices.find(
-      (v) => v.lang.startsWith("en") && v.localService === false
-    ) || voices.find((v) => v.lang.startsWith("en"));
-    if (preferred) msg.voice = preferred;
-
-    window.speechSynthesis.speak(msg);
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name || !form.business || !form.phone) {
@@ -92,19 +68,17 @@ export default function LeadForm() {
       });
 
       setSubmitted(true);
-      speakConfirmation(form);
       setTimeout(() => {
         setSubmitted(false);
         setForm({ name: "", business: "", phone: "", services: "", pricing: "" });
-      }, 5000);
+      }, 2000);
     } catch (err) {
       console.error("Lead submission error:", err);
       setSubmitted(true);
-      speakConfirmation(form);
       setTimeout(() => {
         setSubmitted(false);
         setForm({ name: "", business: "", phone: "", services: "", pricing: "" });
-      }, 5000);
+      }, 2000);
     } finally {
       setLoading(false);
     }
