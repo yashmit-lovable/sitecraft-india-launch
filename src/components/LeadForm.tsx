@@ -16,7 +16,7 @@ interface FormData {
 }
 
 // FormSubmit.co endpoint — replace with your verified email
-const FORMSUBMIT_URL = "https://formsubmit.co/ajax/sitecraft2026@gmail.com";
+const FORMSUBMIT_URL = "https://formsubmit.co/ajax/sitecraft.services@gmail.com";
 
 export default function LeadForm() {
   const { ref, isVisible } = useScrollReveal();
