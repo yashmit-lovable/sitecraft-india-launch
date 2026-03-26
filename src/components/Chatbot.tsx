@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from "react";
-import { MessageCircle, X, Send } from "lucide-react";
+import { X, Send } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import chatAvatar from "@/assets/sitecraft-logo-chat.png";
+import logo from "@/assets/logo.png";
 
 interface Message {
   role: "user" | "assistant";
@@ -137,7 +138,7 @@ export default function Chatbot() {
         className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-accent text-accent-foreground shadow-xl flex items-center justify-center hover:scale-110 transition-transform"
         aria-label="Chat"
       >
-        {open ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
+        {open ? <X className="w-6 h-6" /> : <img src={logo} alt="Chat" className="w-8 h-8 rounded-full" />}
       </button>
 
       {/* Chat window */}

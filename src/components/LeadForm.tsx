@@ -68,10 +68,17 @@ export default function LeadForm() {
       });
 
       setSubmitted(true);
+      setTimeout(() => {
+        setSubmitted(false);
+        setForm({ name: "", business: "", phone: "", services: "", pricing: "" });
+      }, 2000);
     } catch (err) {
       console.error("Lead submission error:", err);
-      // Still show success so the user isn't blocked
       setSubmitted(true);
+      setTimeout(() => {
+        setSubmitted(false);
+        setForm({ name: "", business: "", phone: "", services: "", pricing: "" });
+      }, 2000);
     } finally {
       setLoading(false);
     }
