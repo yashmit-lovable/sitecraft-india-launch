@@ -31,7 +31,7 @@ export default function Header() {
       <div className="container-site flex items-center justify-between h-16 md:h-20">
         <a href="#" className="flex items-center gap-2">
           <img src={logo} alt="SiteCraft" width={36} height={36} className="w-9 h-9 rounded-full object-cover" />
-          <span className="font-heading font-bold text-xl text-gradient">SiteCraft</span>
+          <span className={`font-heading font-bold text-xl ${scrolled ? "text-gradient" : "text-white"}`}>SiteCraft</span>
         </a>
 
         {/* Desktop nav */}
