@@ -40,7 +40,9 @@ export default function Header() {
             <a
               key={l.href}
               href={l.href}
-              className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors"
+              className={`text-sm font-medium transition-colors ${
+                scrolled ? "text-foreground/70 hover:text-primary" : "text-white/90 hover:text-white"
+              }`}
             >
               {l.label}
             </a>
