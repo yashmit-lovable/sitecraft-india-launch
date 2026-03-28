@@ -1,10 +1,28 @@
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { ExternalLink } from "lucide-react";
+import tuitionImg from "@/assets/portfolio-tuition.png";
+import salonImg from "@/assets/portfolio-salon.png";
+import lawyerImg from "@/assets/portfolio-lawyer.png";
 
 const projects = [
-  { title: "Tuition Center", category: "Education", placeholder: true },
-  { title: "Salon & Spa", category: "Beauty", placeholder: true },
-  { title: "Law Firm", category: "Legal", placeholder: true },
+  {
+    title: "Vikalp Academy",
+    category: "Education",
+    image: tuitionImg,
+    url: "https://preview--vikalp-bright-future.lovable.app/",
+  },
+  {
+    title: "11:11 The Salon",
+    category: "Beauty",
+    image: salonImg,
+    url: "https://id-preview--79faed39-9be7-4965-a67b-f1f254b2f9e8.lovable.app/",
+  },
+  {
+    title: "Advocate Rashmi Vyas",
+    category: "Legal",
+    image: lawyerImg,
+    url: "https://id-preview--e457552f-9e12-4977-bf06-0a1ea2674597.lovable.app/",
+  },
 ];
 
 export default function Portfolio() {
@@ -32,23 +50,26 @@ export default function Portfolio() {
           {projects.map((project, i) => {
             const { ref, isVisible } = useScrollReveal();
             return (
-              <div
+              <a
                 key={project.title}
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
                 ref={ref}
-                className={`group rounded-xl overflow-hidden border border-border bg-card shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 ${
+                className={`group rounded-xl overflow-hidden border border-border bg-card shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 block ${
                   isVisible ? "animate-fade-up" : "opacity-0"
                 }`}
                 style={{ animationDelay: `${i * 150}ms` }}
               >
-                {/* Screenshot area */}
-                <div className="aspect-video bg-muted/50 flex items-center justify-center relative overflow-hidden">
-                  <div className="text-center p-6">
-                    <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
-                      <ExternalLink className="w-7 h-7 text-primary" />
-                    </div>
-                    <p className="text-muted-foreground text-sm">
-                      Screenshot coming soon
-                    </p>
+                {/* Screenshot */}
+                <div className="aspect-video overflow-hidden relative">
+                  <img
+                    src={project.image}
+                    alt={`${project.title} website screenshot`}
+                    className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors duration-300 flex items-center justify-center">
+                    <ExternalLink className="w-8 h-8 text-primary-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300 drop-shadow-lg" />
                   </div>
                 </div>
 
@@ -61,7 +82,7 @@ export default function Portfolio() {
                     {project.title}
                   </h3>
                 </div>
-              </div>
+              </a>
             );
           })}
         </div>
